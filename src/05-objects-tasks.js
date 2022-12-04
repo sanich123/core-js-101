@@ -113,33 +113,52 @@ function fromJSON(/* proto, json */) {
  */
 
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
+  _selector: '',
+  element(value) {
+    this._selector += value;
+    return this;
   },
 
-  id(/* value */) {
-    throw new Error('Not implemented');
+  id(value) {
+    this._selector += `#${value}`;
+    return this;
   },
 
-  class(/* value */) {
-    throw new Error('Not implemented');
+  class(value) {
+    this._selector += `.${value}`;
+    return this;
   },
 
-  attr(/* value */) {
-    throw new Error('Not implemented');
+  attr(value) {
+    this._selector += `[${value}]`;
+    return this;
   },
 
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
+  pseudoClass(value) {
+    this._selector += `:${value}`;
+    return this;
   },
 
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
+  pseudoElement(value) {
+    this._selector += `::${value}`;
+    return this;
   },
 
-  combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
+
+  combine(selector1, combinator, selector2) {
+    const object = Object.create(cssSelectorBuilder);
+    object.sel1 = selector1.stringify();
+    object.sel2 = selector2.stringify();
+    object.comb = combinator;
+    object._selector = `${object.sel1} ${combinator} ${object.sel2}`;
+    return object;
   },
+
+  stringify() {
+    const value = this._selector;
+    this._selector = '';
+    return value;
+  }
 };
 
 
