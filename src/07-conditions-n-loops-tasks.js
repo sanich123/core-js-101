@@ -167,11 +167,10 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  // const { center, radius } = circle;
-  // const { x, y } = point;
-  // return (x - center.x) ** 2 + (y - center.y) ** 2 <= radius ** 2;
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  const { center, radius } = circle;
+  const { x, y } = point;
+  return (x - center.x) ** 2 + (y - center.y) ** 2 < radius ** 2;
 }
 
 
@@ -467,8 +466,41 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  const rightArr = position.map((el) => el.toString().split(','));
+
+  for (let i = 0; i < rightArr.length; i += 1) {
+    const first = position[i][0];
+    const second = position[i][1];
+    const third = position[i][2];
+    if (first && second && third) {
+      if (first === second && second === third && third === first) {
+        return first;
+      }
+    }
+    const up = position[0][i];
+    const medium = position[1][i];
+    const bottom = position[2][i];
+    if (up && medium && bottom) {
+      if (up === medium && medium === bottom && bottom === up) {
+        return medium;
+      }
+    }
+
+    const center = position[1][1];
+    const upLeft = position[0][0];
+    const upRight = position[0][2];
+    const downLeft = position[2][0];
+    const downRight = position[2][2];
+    const fromLeftTopToRight = center === upLeft && upLeft === downRight && downRight === center;
+    const fromRightTopToLeft = center === upRight && center === downLeft && downLeft === upRight;
+    if ((center && upLeft && downRight) || (center && upRight && downLeft)) {
+      if (fromLeftTopToRight || fromRightTopToLeft) {
+        return center;
+      }
+    }
+  }
+  return undefined;
 }
 
 
