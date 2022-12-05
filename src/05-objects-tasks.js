@@ -113,34 +113,34 @@ function fromJSON(/* proto, json */) {
  */
 
 const cssSelectorBuilder = {
-  _selector: '',
+  selector: '',
   element(value) {
-    this._selector += value;
+    this.selector += value;
     return this;
   },
 
   id(value) {
-    this._selector += `#${value}`;
+    this.selector += `#${value}`;
     return this;
   },
 
   class(value) {
-    this._selector += `.${value}`;
+    this.selector += `.${value}`;
     return this;
   },
 
   attr(value) {
-    this._selector += `[${value}]`;
+    this.selector += `[${value}]`;
     return this;
   },
 
   pseudoClass(value) {
-    this._selector += `:${value}`;
+    this.selector += `:${value}`;
     return this;
   },
 
   pseudoElement(value) {
-    this._selector += `::${value}`;
+    this.selector += `::${value}`;
     return this;
   },
 
@@ -150,15 +150,15 @@ const cssSelectorBuilder = {
     object.sel1 = selector1.stringify();
     object.sel2 = selector2.stringify();
     object.comb = combinator;
-    object._selector = `${object.sel1} ${combinator} ${object.sel2}`;
+    object.selector = `${object.sel1} ${combinator} ${object.sel2}`;
     return object;
   },
 
   stringify() {
-    const value = this._selector;
-    this._selector = '';
+    const value = this.selector;
+    this.selector = '';
     return value;
-  }
+  },
 };
 
 
